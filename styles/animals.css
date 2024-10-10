@@ -42,6 +42,14 @@
     font-style: normal;
 }
 
+/********************************
+			Custom Properties
+*********************************/
+/* :root is like the root of your HTML document - it means this property is available to your whole CSS document (it has global scope) */
+:root{
+	--mud-brown:#542401;
+	--jungle-green:#186b08;
+}
 
 /********************************
 			Main
@@ -77,3 +85,183 @@ footer{
 /********************************
 	Special (added in class)
 ********************************/
+main{
+	/* subtract the value of the padding width from the wodth of our element */
+	width: calc(960px - 90px);
+	margin: 20px auto;
+	background-image: url(../images/corkback.jpg);
+	background-repeat: repeat;
+	/* three value means top, left-right, bottom */
+	padding: 25px 45px 25px;
+	/* set the border for all sides, then override it by just changing the top */
+	border: 25px solid var(--mud-brown);
+	border-top-width: 55px;
+	border-radius: 25px;
+	/* in boxshadow, the properties are:display: 
+		type
+		x offset
+		y offset
+		length (or size)
+		colour */
+	box-shadow: 5px 5px 10px black, inset 3px 3px 7px black;
+	/* use display grid so we can set some pictures on the right and some on the left */
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+/********************** Drop down **********************/
+nav{
+	font-size: 2em;
+	/* use a negative margin to pull this element up into the border */
+	margin: -65px 0 25px;
+}
+
+/* using the direct child selector > to select only the ul that is a direct child */
+nav > ul{
+	display: flex;
+	justify-content: flex-end;
+}
+
+nav > ul > li {
+	padding: 0 10px;
+	position: relative; /* so it will hold the absolutely positioned dropdown */
+}
+
+nav ul li ul{
+	display:none;
+}
+
+nav a{
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* make the dropdown appear when you hover the nav item */
+nav > ul > li:hover ul{
+	display: block;
+	position: absolute;
+	background-color: var(--mud-brown);
+	padding: 10px;
+	box-shadow: 3px 3px 7px black;
+}
+
+/* add some spacing for the dropdown links */ 
+/* can do above at the hover as well, this is to say have line height with or without hovering it */
+nav ul li ul a{
+	/* line-height is definedbased on the size of the font, where 1 is 100% of the font size */
+	line-height: 1.5;
+}
+
+/********************** Pictures **********************/
+p{
+	line-height: 1.4;
+}
+
+article{
+	background-color: white;
+	border: 1px solid #aaa;
+	box-shadow: 2px 2px 4px rgb(50, 50, 50);
+}
+
+header article{
+	margin: 20px 0;
+	padding: 10px;
+}
+
+section article{
+	width: 350px;
+	padding: 23px;
+	margin-top: 20px;
+	/* add position:relative so it can hold the absolutely positioned :: before psedo class */
+	position: relative;
+}
+
+/* use the nth-child to make every other picture on the right side 
+	nth-child(3) would be only the third
+	nth-child(2n) would be every second child
+	nth-child(2n +1) every second starting with the third
+	nth-child(2n-1) every second child starting with the first
+	you can do it the same with nth-of-type, nth-last-child or nth-last-of-type*/
+main section:nth-child(2n){
+	justify-self: end;
+	/* add some nrgative margin to pull the other pictures towards these (make them look overlapping) */
+	margin-top: -100px;
+	margin-bottom: -100px;
+}
+
+/* change the links in the picture using a custom property */
+article a{
+	color: var(--jungle-green);
+}
+
+/* link pseudo classes include hover, active, and visited 
+it's important to set an active state for mobile users*/
+section a:hover, section a:active{
+	color: #2ce008;
+}
+
+/* use the pseudo class ::before to apply a tape effect to each picture 
+the before and after pseudo classes don't exist until you define them, and add some content inside*/
+section article::before{
+	content: " ";
+	width: 180px;
+	height: 50px;
+	/* with rgb, you can define an alpha channel for transparency - define between 0 (fully transparent) and 1 (fully opaque)*/
+	background-color: rgba(222, 222, 222, 0.6);
+	position: absolute;
+	left: 105px;
+	top: -15px;
+	z-index: 2;
+	transform: rotate(-5deg);
+}
+
+/* use the ::first-letter pseudi class to change the title */
+header h1{
+	display: flex;
+	justify-content: center;
+}
+
+header h1 span{
+	/* ::first-letter only works on block elements */
+	display: block;
+	margin: 0 15px;
+}
+
+header h1 span::first-letter{
+	font-family: 'Moo Lah Lah', cursive;
+	font-size:1.3em;
+}
+
+/********************** Attribute selectors **********************/
+
+/* attribute selectors select HTML elements based on noe of their properties, like src or href 
+	a[href] targets any a tag with an href (regardless of the value of that href)
+	or, by value:
+	= means matches exactly
+	^= means begins with
+	$= means ends with
+	*= means contains
+*/
+a[href*="wiki"]{
+	background-image: url(../images/wikipedia-icon.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: left;
+	padding-left: 1.5em;
+}
+
+footer a{
+	color: white;
+}
+
+footer a[href$=".com"]{
+	color: red;
+}
+
+/************** selection pseudo class **************/
+/* selection changes the highlight on your text...
+BUT - if you change this you will mess with accessibility settings */
+p::selection{
+	background-color: orange;
+}
